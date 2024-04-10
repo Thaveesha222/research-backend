@@ -1,0 +1,29 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install required system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config \
+    libhdf5-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install required Python packages
+COPY ./requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy models and tokenizers
+COPY ./run_type_prediction_model.h5 .
+COPY ./run_type_tokenizer.pickle .
+
+COPY ./run_count_prediction_model.h5 .
+COPY ./run_count_tokenizer.pickle .
+
+# Expose Flask port
+EXPOSE 5001
+
+# Copy model invoker script
+COPY ./model_invoker.py .
+
+CMD ["python", "model_invoker.py"]
