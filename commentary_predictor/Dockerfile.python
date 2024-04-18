@@ -13,12 +13,18 @@ RUN apt-get update && apt-get install -y \
 COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy models and tokenizers
+# Copy models and tokenizers and vectorizes
 COPY ./run_type_prediction_model.h5 .
 COPY ./run_type_tokenizer.pickle .
 
 COPY ./run_count_prediction_model.h5 .
 COPY ./run_count_tokenizer.pickle .
+
+COPY ./run_count_prediction_model.h5 .
+COPY ./run_count_tokenizer.pickle .
+
+COPY ./run_type_prediction_model.joblib .
+COPY ./tfidf_vectorizer_run_types.joblib .
 
 # Expose Flask port
 EXPOSE 5001
