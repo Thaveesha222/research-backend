@@ -107,7 +107,7 @@ class MatchController extends Controller
                 ]
             ]);
 
-            $predicted_run_type = json_decode($response->getBody()->getContents(), true)['predicted_runs'][0][0];
+            $predicted_run_type = json_decode($response->getBody()->getContents(), true)['predicted_runs'];
             $run_type = $this->mapRunType($predicted_run_type);
 
             $response = $client->post('predict_run_count', [
